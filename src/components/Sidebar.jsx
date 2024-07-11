@@ -40,7 +40,7 @@ const DesktopSidebar = () => {
 
 const MobileSidebar = () => {
   return (
-    <div className="flex justify-center gap-10 border-t fixed w-full bottom-0 left-0 z-10 p-2 sm:hidden">
+    <div className="flex justify-center gap-10 border-t fixed w-full bottom-0 left-0 z-10 p-2 sm:hidden bg-white">
       <Link to={"/"} className="flex gap-1">
         <Home size={24} />
         <span className="cursor-pointer font-bold">Home</span>
