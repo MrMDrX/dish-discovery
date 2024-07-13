@@ -1,7 +1,8 @@
 import DishCard from "../components/DishCard";
+import getRandomColor from "../lib/utils.js";
 
 const FavoritesPage = () => {
-  const favorites = [1];
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   return (
     <div className="bg-[#faf9fb] flex-1 p-10 min-h-screen">
       <div className="max-w-screen-lg mx-auto">
@@ -14,9 +15,9 @@ const FavoritesPage = () => {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <DishCard />
-          <DishCard />
-          <DishCard />
+          {favorites.map((recipe, index) => (
+            <DishCard key={index} dish={recipe} {...getRandomColor()} />
+          ))}
         </div>
       </div>
     </div>
