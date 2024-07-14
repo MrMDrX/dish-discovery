@@ -71,6 +71,10 @@ const DishCard = ({ dish, bg, badge }) => {
           </div>
         ))}
       </div>
+
+      <a href={dish.url} target="_blank" className="mt-2 inline-block bg-indigo-400 rounded-md p-2 text-center hover:bg-indigo-500 transition-colors">
+        More details (source)
+      </a>
     </div>
   );
 };

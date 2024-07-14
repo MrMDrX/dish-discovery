@@ -26,7 +26,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchDishes("Couscous");
+    fetchDishes("Moroccan Couscous");
   }, []);
 
   const handleSearch = (e) => {
