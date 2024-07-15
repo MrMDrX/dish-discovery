@@ -2,13 +2,9 @@ import { Soup, Heart, HeartPulse } from "lucide-react";
 import { useState } from "react";
 
 const getTowHealthLabels = (healthLabels) => {
-  if (healthLabels.length > 2) {
-    return [healthLabels[0], healthLabels[1]];
-  } else {
-    return healthLabels;
-  }
+  return healthLabels.length > 2 ? [healthLabels[0], healthLabels[1]] : healthLabels;
 };
-const DishCard = ({ dish, bg, badge }) => {
+const DishCard = ({ dish, bg, badge, onRemoveFromFavorites }) => {
   const healthLabels = getTowHealthLabels(dish.healthLabels);
 
   const [isFavorite, setIsFavorite] = useState(localStorage.getItem("favorites")?.includes(dish.label));
@@ -20,6 +16,9 @@ const DishCard = ({ dish, bg, badge }) => {
     if (isDishInFavorites) {
       favorites = favorites.filter((fav) => fav.label !== dish.label);
       setIsFavorite(false);
+      if (onRemoveFromFavorites) {
+        onRemoveFromFavorites(dish.label);
+      }
     } else {
       favorites.push(dish);
       setIsFavorite(true);
@@ -33,7 +32,7 @@ const DishCard = ({ dish, bg, badge }) => {
         <div className="skeleton absolute inset-0" />
         <img
           src={dish.image}
-          alt="dish image"
+          alt={dish.label}
           className="rounded-md w-full h-full object-cover cursor-pointer opacity-0 transition-opacity duration-500"
           onLoad={(e) => {
             e.currentTarget.style.opacity = 1;

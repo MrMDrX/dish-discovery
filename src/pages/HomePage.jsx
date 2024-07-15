@@ -1,9 +1,9 @@
-import { Search } from "lucide-react";
 import DishCard from "../components/DishCard";
 import { useEffect } from "react";
 import { useState } from "react";
 import SkeletonCard from "../components/SkeletonCard";
 import getRandomColor from "../lib/utils.js";
+import { Search, X } from "lucide-react";
 
 const APP_ID = import.meta.env.VITE_APP_ID;
 const APP_KEY = import.meta.env.VITE_APP_KEY;
@@ -11,6 +11,7 @@ const APP_KEY = import.meta.env.VITE_APP_KEY;
 const HomePage = () => {
   const [dishes, setDishes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("Moroccan Couscous");
 
   const fetchDishes = async (query) => {
     setLoading(true);
@@ -22,27 +23,39 @@ const HomePage = () => {
       setLoading(false);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDishes("Moroccan Couscous");
+    fetchDishes(searchQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const query = e.target[0].value;
-    fetchDishes(query);
+    fetchDishes(searchQuery);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    fetchDishes("Moroccan Couscous");
   };
 
   return (
     <div className="bg-[#faf9fb] p-10 flex-1">
       <div className="max-w-screen-lg mx-auto">
-        <form onSubmit={handleSearch}>
-          <label className="input shadow-md flex items-center gap-2">
-            <Search size={24} />
-            <input type="text" className="text-sm md:text-md grow" placeholder="What do you want to cook today ?" />
+        <form onSubmit={handleSearch} className="flex items-center">
+          <label className="input shadow-md flex items-center gap-2 flex-grow relative">
+            <input type="text" className="text-sm md:text-md grow pl-3 pr-10" placeholder="What do you want to cook today?" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+            <button type="submit" className="absolute right-2 text-blue-500 focus:outline-none">
+              <Search size={24} />
+            </button>
           </label>
+          <button type="button" onClick={clearSearch} className="btn btn-circle ml-2 text-red-500">
+            <X size={24} />
+          </button>
         </form>
 
         <h1 className="font-bold text-3xl md:text-5xl mt-4">Recommended Dishes</h1>

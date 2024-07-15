@@ -1,8 +1,18 @@
+import { useState } from "react";
 import DishCard from "../components/DishCard";
 import getRandomColor from "../lib/utils.js";
 
 const FavoritesPage = () => {
-  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  const [favorites, setFavorites] = useState(() => {
+    return JSON.parse(localStorage.getItem("favorites")) || [];
+  });
+
+  const removeFromFavorites = (label) => {
+    const updatedFavorites = favorites.filter((fav) => fav.label !== label);
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+
   return (
     <div className="bg-[#faf9fb] flex-1 p-10 min-h-screen">
       <div className="max-w-screen-lg mx-auto">
@@ -17,7 +27,7 @@ const FavoritesPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {favorites.map((recipe, index) => (
-            <DishCard key={index} dish={recipe} {...getRandomColor()} />
+            <DishCard key={index} dish={recipe} {...getRandomColor()} onRemoveFromFavorites={removeFromFavorites} />
           ))}
         </div>
       </div>
